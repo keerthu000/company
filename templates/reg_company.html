@@ -1,0 +1,196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+    {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}" /> {% endcomment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      
+      .sidebar {
+        height: 100%;
+        width: 250px;
+        position: fixed;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: #333;
+        padding-top: 20px;
+    }
+
+    .sidebar a {
+        padding: 15px 8px 15px 16px;
+        text-decoration: none;
+        font-size: 18px;
+        color: white;
+        display: block;
+    }
+
+    .sidebar a:hover {
+        background-color: #575757;
+    }
+
+    .content {
+        margin-left: 260px;
+        padding: 20px;
+    }
+
+    .content h2 {
+        color: #333;
+    }
+      
+       
+           
+    </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h4 style="color: white; padding-left: 16px;padding-top:40px;"></h4>
+    
+    {% if user.is_admin %}
+    <a href="{% url 'dashboard_view' %}">Dashboard</a>
+    <a href="{% url 'company_list' %}">Company List</a>
+    <a href="{% url 'roles' %}">Roles Management</a>
+    <a href="{% url 'department' %}">Department</a>
+    <a href="{% url 'employee_list' %}">Employees</a>
+    <a href="{% url 'attendance_list' %}">Attendance</a>
+    <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+    <a href="{% url 'logout_view' %}">Log Out</a>
+    {% endif %}
+    
+    {% if user.is_hr_manager %}
+    <a href="{% url 'roles' %}">Roles Management</a>
+    <a href="{% url 'department' %}">Department</a>
+    <a href="{% url 'employee_list' %}">Employees</a>
+    
+    <a href="{% url 'logout_view' %}">Log Out</a>
+    {% endif %}
+    
+    {% if user.is_manager %}
+    <a href="">View Department Employees</a>
+    <a href="">Manage Employee Leaves</a>
+    {% endif %}
+    
+    {% if user.is_employee %}
+    <a href="">View Profile</a>
+    <a href="">Edit Profile</a>
+    <a href="">View Leave Status</a>
+    {% endif %}
+  </div>
+
+
+
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+              <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+      
+                      <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+      
+                      <form action="{% url 'registercompany_view' %}" method="POST" enctype="multipart/form-data" class="mx-1 mx-md-4">
+                        {% csrf_token %}
+                      
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <input type="text" id="form3Example1c" name="company_name" class="form-control" />
+                            <label class="form-label" for="form3Example1c">Company Name</label>
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-map-marker-alt fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                              <input type="text" id="companyAddress" name="address" class="form-control" />
+                              <label class="form-label" for="companyAddress">Address</label>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                              <input type="text" id="contactNumber" name="contact_number" class="form-control" />
+                              <label class="form-label" for="contactNumber">Contact Number</label>
+                            </div>
+                        </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <input type="email" id="form3Example3c" name="email" class="form-control" />
+                            <label class="form-label" for="form3Example3c">EmailID</label>
+                          </div>
+                        </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <input type="password" id="form3Example4c" name="password" class="form-control" />
+                            <label class="form-label" for="form3Example4c">Password</label>
+                          </div>
+                        </div>
+      
+                        {% comment %} <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <input type="password" id="form3Example4cd" class="form-control" />
+                            <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                          </div>
+                        </div> {% endcomment %}
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-image fa-lg me-3 fa-fw"></i>
+                            <div class="form-group">
+                              <label for="imageUpload">Upload Company Logo</label>
+                              <div class="input-group mb-3">
+                                <input type="file" class="form-control" id="imageUpload" name="imageUpload" accept="image/*">
+                                {% comment %} <label class="input-group-text" for="imageUpload">Choose file</label> {% endcomment %}
+                              </div>
+                            </div>
+                        </div>
+      
+                        {% comment %} <div class="form-check d-flex justify-content-center mb-5">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
+                          <label class="form-check-label" for="form2Example3">
+                            I agree all statements in <a href="#!">Terms of service</a>
+                          </label>
+                        </div> {% endcomment %}
+      
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                        </div>
+      
+                      </form>
+      
+                    </div>
+                    <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+      
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                        class="img-fluid" alt="Sample image">
+      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>
+
+
+
+ 

@@ -1,0 +1,199 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+    {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}" /> {% endcomment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+       
+            .messages {
+                list-style-type: none;
+                padding: 0;
+                margin: 20px 0;
+                max-width: 600px;
+            }
+        
+            .messages li {
+                margin: 10px 0;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: 'Arial', sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                color: white;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+        
+            .messages li:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            }
+        
+            .messages .success {
+                background: linear-gradient(to right, #28a745, #218838);
+            }
+        
+            .messages .error {
+                background: linear-gradient(to right, #dc3545, #c82333);
+            }
+        
+            .messages .info {
+                background: linear-gradient(to right, #17a2b8, #138496);
+            }
+        
+            .messages .warning {
+                background: linear-gradient(to right, #ffc107, #e0a800);
+                color: black;
+            }
+        
+            .message-icon {
+                margin-right: 10px;
+                font-size: 20px;
+            }
+
+    </style>
+</head>
+<body>
+    <ul class="messages">
+        {% if messages %}
+            {% for message in messages %}
+                <li class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                    <span class="message-icon">
+                        {% if "success" in message.tags %}✔️
+                        {% elif "error" in message.tags %}❌
+                        {% elif "info" in message.tags %}ℹ️
+                        {% elif "warning" in message.tags %}⚠️
+                        {% endif %}
+                    </span>
+                    {{ message }}
+                </li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+    <section class="vh-100" style="background-color: #eee;">
+        <div class="container h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 col-xl-11">
+              <div class="card text-black" style="border-radius: 25px;">
+                <div class="card-body p-md-5">
+                  <div class="row justify-content-center">
+                    <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+      
+                      <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+      
+                      <form action="{% url 'register_manager' %}" method="POST" enctype="multipart/form-data" class="mx-1 mx-md-4">
+                        {% csrf_token %}
+                      
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-user fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="form3Example1c">Manager Name</label>
+                            <input type="text" id="form3Example1c" name="mng_name" class="form-control" />
+                            
+                          </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-map-marker-alt fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                                <label class="form-label" for="companyAddress">Address</label>
+                                <input type="text" id="companyAddress" name="address" class="form-control" />
+                             
+                            </div>
+                        </div>
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            <i class="fas fa-phone fa-lg me-3 fa-fw"></i>
+                            <div class="form-outline flex-fill mb-0">
+                                <label class="form-label" for="contactNumber">Contact Number</label>
+                                <input type="text" id="contactNumber" name="contact_number" class="form-control" />
+                             
+                            </div>
+                        </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="form3Example3c">EmailID</label>
+                            <input type="email" id="form3Example3c" name="email" class="form-control" />
+                            
+                          </div>
+                        </div>
+      
+                        <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <label class="form-label" for="form3Example4c">Password</label>
+                            <input type="password" id="form3Example4c" name="password" class="form-control" />
+                            
+                          </div>
+                        </div>
+      
+                        {% comment %} <div class="d-flex flex-row align-items-center mb-4">
+                          <i class="fas fa-key fa-lg me-3 fa-fw"></i>
+                          <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                            <input type="password" id="form3Example4cd" class="form-control" />
+                            <label class="form-label" for="form3Example4cd">Repeat your password</label>
+                          </div>
+                        </div> {% endcomment %}
+                        <div class="d-flex flex-row align-items-center mb-4">
+                            
+                            <div data-mdb-input-init class="form-outline flex-fill mb-0">
+                              <label for="imageUpload"> Company Name</label>
+                              <div class="input-group mb-3">
+                                <select class="form-control" name="companyname" placeholder="Company Name" id="companyname">
+                                    <option value="">Company Name</option>
+                                    {% for c in cmpny %}
+                                    <option value="{{c.id}}">{{c.company_name}}</option> <!-- Correct field name -->
+                                    {% endfor %}
+                                </select>
+                             </div>
+                            </div>
+                        </div>
+      
+                        {% comment %} <div class="form-check d-flex justify-content-center mb-5">
+                          <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3c" />
+                          <label class="form-check-label" for="form2Example3">
+                            I agree all statements in <a href="#!">Terms of service</a>
+                          </label>
+                        </div> {% endcomment %}
+      
+                        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                          <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Register</button>
+                        </div>
+      
+                      </form>
+      
+                    </div>
+                    <div class="col-md-10 col-lg-6 col-xl-7 d-flex align-items-center order-1 order-lg-2">
+      
+                      <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
+                        class="img-fluid" alt="Sample image">
+      
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+</body>
+</html>
+
+
+
+ 

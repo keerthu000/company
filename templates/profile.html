@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .content h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h4 style="color: white; padding-left: 16px;padding-top:40px;"></h4>
+    
+    {% if user.is_admin %}
+    <a href="{% url 'dashboard_view' %}">Dashboard</a>
+    <a href="{% url 'company_list' %}">Company List</a>
+    <a href="{% url 'roles' %}">Roles Management</a>
+    <a href="{% url 'department' %}">Department</a>
+    <a href="{% url 'employee_list' %}">Employees</a>
+    <a href="{% url 'attendance_list' %}">Attendance</a>
+    <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+    <a href="{% url 'logout_view' %}">Log Out</a>
+    {% endif %}
+    
+    {% if user.is_hr_manager %}
+    <a href="{% url 'dashboard_view' %}">Dashboard</a>
+    <a href="{% url 'roles' %}">Roles Management</a>
+    <a href="{% url 'department' %}">Department</a>
+    <a href="{% url 'employee_list' %}">Employees</a>
+    
+    <a href="{% url 'logout_view' %}">Log Out</a>
+    {% endif %}
+    
+    {% if user.is_manager %}
+    <a href="{% url 'dashboard_view' %}">Dashboard</a>
+    <a href="{% url 'roles' %}">Roles Management</a>
+    <a href="{% url 'department' %}">Department</a>
+    <a href="{% url 'employee_list' %}">Employees</a>
+    <a href="{% url 'attendance_list' %}">Attendance</a>
+    <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+    <a href="{% url 'logout_view' %}">Log Out</a>
+    {% endif %}
+    
+    {% if user.is_employee %}
+    <a href="{% url 'employee_profile' employee.id %}">View Profile</a>
+    <a href="{% url 'employee_edit' employee.id %}">Edit Profile</a>
+    {% comment %} <a href="{% url 'employee_leave_status' %}">View Leave Status</a> {% endcomment %}
+    <a href="{% url 'Leave' %}">Apply Leave</a>
+    <a href="{% url 'attendancepage' %}">Add Attendance</a>
+    <a href="{% url 'leavelist' %}">Leave Status</a>
+    
+    {% endif %}
+</div>
+
+<div class="content">
+    <h2>Welcome to the Dashboard</h2>
+    <p>Use the sidebar to navigate through your role-specific sections.</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

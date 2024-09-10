@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+    {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}" /> {% endcomment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+    }
+
+           
+    </style>
+</head>
+    <body>
+
+    </div>
+        <section class="h-100 bg-dark">
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                  <div class="card card-registration my-4">
+                    <div class="row g-0">
+                      <div class="col-xl-6 d-none d-xl-block">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                          alt="Sample photo" class="img-fluid"
+                          style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="card-body p-md-5 text-black">
+                          <h3 class="mb-5 text-uppercase">Update Employee  form</h3>
+                          <form action="{% url 'employee_edit' employee.id  %}" method="POST" enctype="multipart/form-data" >
+                            {% csrf_token %}
+          
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <input type="text" id="form3Example1m" name="employeename" value="{{employee.emp_name}}" class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example1m">Employee name</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <input type="text" id="form3Example1n" name="emp_id"   value="{{employee.emp_id}}"  class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example1n">Employee Id</label>
+                              </div>
+                            </div>
+                          </div>
+          
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                {% comment %} <input type="text" id="form3Example1m1"  name="department" class="form-control form-control-lg" /> {% endcomment %}
+                                <select class="form-control form-control-lg" data-mdb-select-init name="department" >
+                                     {% comment %} <option value="{{ employee.department.id }}" {% if employee.department.id=employee.department.name  %}selected{% endif %}>{{ employee.department.name }}</option> {% endcomment %}
+                                    
+                                     
+                                
+                                    {% for dept in departments %}
+                                    <option value="{{ dept.id }}" {% if dept.id == employee.department.id %}selected{% endif %}>
+                                        {{ dept.name }}
+                                    {% endfor %}
+
+
+                                
+                                </select>
+                                <label class="form-label" for="form3Example1m1">Department</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <select class="form-control form-control-lg" data-mdb-select-init name="role" id="role">
+                                  {% for r in roles %}
+                                      <option value="{{ r.id }}" {% if r == employee.role %}selected{% endif %}>{{ r.name }}</option>
+                                  {% endfor %}
+                              </select>
+                                <label class="form-label" for="form3Example1n1">Role</label>
+                              </div>
+                            </div>
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example8" name="address"  value="{{employee.address}}" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example8">Address</label>
+                          </div>
+          
+                          
+          
+                          <div class="row">
+                            <div class="col-md-12 mb-4">
+          
+                              <select class="form-control form-control-lg" data-mdb-select-init name="company">
+                                <option value="" disabled selected>Company Name</option>
+                                <option value="{{ employee.company.id }}" {% if employee.company.company_name  %}selected{% endif %}>{{ employee.company.company_name }}</option>
+                                {% for c in company %}
+                                <option value="{{c.id}}">{{c.company_name}}</option> <!-- Correct field name -->
+                                {% endfor %}
+
+                                
+                              </select>
+                              <label class="form-label" for="form3Example8">Company Name</label>
+          
+                            </div>
+                           
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="date" id="form3Example9" name="join_date"  value="{{employee.joining_date|date:'Y-m-d'}}" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example9">Joining Date</label>
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example90" value="{{employee.salary}}" name="salary" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example90">Salary</label>
+                          </div>
+          
+                        
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example97" name="email" value="{{employee.email}}"class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example97">Email ID</label>
+                          </div>
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="password" name="password" value="{{ employee.password }}" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example97">Password</label>
+                            <i class="fas fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                        </div>
+                          
+          
+          
+                          <div class="d-flex justify-content-end pt-3">
+                            
+                            <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2">Submit form</button>
+                          </div>
+                         </form>
+          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+    </body>
+    
+    <script>
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            var passwordField = document.getElementById('password');  // Updated to match the ID in HTML
+            var icon = this;
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text';
+                icon.classList.add('fa-eye');
+                icon.classList.remove('fa-eye-slash');
+            } else {
+                passwordField.type = 'password';
+                icon.classList.add('fa-eye-slash');
+                icon.classList.remove('fa-eye');
+            }
+        });
+    </script>
+</html>
+
+
+
+ 

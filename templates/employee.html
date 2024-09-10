@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login</title>
+    {% comment %} <link rel="shortcut icon" type="image/png" href="{% static 'assets/images/logos/favicon.png' %}" /> {% endcomment %}
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+       
+            .messages {
+                list-style-type: none;
+                padding: 0;
+                margin: 20px 0;
+                max-width: 600px;
+            }
+        
+            .messages li {
+                margin: 10px 0;
+                padding: 15px;
+                border-radius: 8px;
+                font-family: 'Arial', sans-serif;
+                font-size: 16px;
+                font-weight: 500;
+                color: white;
+                display: flex;
+                align-items: center;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                transition: transform 0.3s, box-shadow 0.3s;
+            }
+        
+            .messages li:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+            }
+        
+            .messages .success {
+                background: linear-gradient(to right, #28a745, #218838);
+            }
+        
+            .messages .error {
+                background: linear-gradient(to right, #dc3545, #c82333);
+            }
+        
+            .messages .info {
+                background: linear-gradient(to right, #17a2b8, #138496);
+            }
+        
+            .messages .warning {
+                background: linear-gradient(to right, #ffc107, #e0a800);
+                color: black;
+            }
+        
+            .message-icon {
+                margin-right: 10px;
+                font-size: 20px;
+            }
+            .card-registration .select-input.form-control[readonly]:not([disabled]) {
+                font-size: 1rem;
+                line-height: 2.15;
+                padding-left: .75em;
+                padding-right: .75em;
+                }
+                .card-registration .select-arrow {
+                top: 13px;
+                }
+
+
+    </style>
+</head>
+    <body>
+   
+        {% comment %} <ul class="messages">
+            {% if messages %}
+                {% for message in messages %}
+                    <li class="{% if message.tags %}{{ message.tags }}{% endif %}">
+                        <span class="message-icon">
+                            {% if "success" in message.tags %}✔️
+                            {% elif "error" in message.tags %}❌
+                            {% elif "info" in message.tags %}ℹ️
+                            {% elif "warning" in message.tags %}⚠️
+                            {% endif %}
+                        </span>
+                        {{ message }}
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul> {% endcomment %}
+        <section class="h-100 bg-dark">
+            <div class="container py-5 h-100">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                  <div class="card card-registration my-4">
+                    <div class="row g-0">
+                      <div class="col-xl-6 d-none d-xl-block">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img4.webp"
+                          alt="Sample photo" class="img-fluid"
+                          style="border-top-left-radius: .25rem; border-bottom-left-radius: .25rem;" />
+                      </div>
+                      <div class="col-xl-6">
+                        <div class="card-body p-md-5 text-black">
+                          <h3 class="mb-5 text-uppercase">Employee registration form</h3>
+                          <form action="{% url 'employeeadd' %}" method="POST" enctype="multipart/form-data" >
+                            {% csrf_token %}
+          
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <input type="text" id="form3Example1m" name="employeename" class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example1m">Employee name</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <input type="text" id="form3Example1n" name="emp_id"   value="EMP00{{total_employees}}"  class="form-control form-control-lg" />
+                                <label class="form-label" for="form3Example1n">Employee Id</label>
+                              </div>
+                            </div>
+                          </div>
+          
+                          <div class="row">
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                {% comment %} <input type="text" id="form3Example1m1"  name="department" class="form-control form-control-lg" /> {% endcomment %}
+                                <select class="form-control form-control-lg" data-mdb-select-init name="department">
+                                    <option value="" disabled selected>Department</option>
+                                    {% for d in department %}
+                                    <option value="{{ d.id }}">{{ d.name}}</option>
+                                    {% endfor %}
+                                    {% comment %} <option value="IT">IT</option>
+                                    <option value="Financial accounting">Financial accounting</option>
+                                    <option value="Sales">Sales</option>
+                                    <option value="Research and development">Research and development</option>
+                                    <option value="Operations management">Operations management</option>
+                                    <option value="Customer service">Customer service</option>
+
+ {% endcomment %}
+
+                                
+                                </select>
+                                <label class="form-label" for="form3Example1m1">Department</label>
+                              </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                              <div data-mdb-input-init class="form-outline">
+                                <select class="form-control form-control-lg" data-mdb-select-init name="role">
+                                  <option value="" disabled selected>Role</option>
+                                  {% for role in roles %}
+                                  <option value="{{ role.id }}">{{ role.name}}</option>
+                                  {% endfor %}
+                                </select>
+                                <label class="form-label" for="form3Example1n1">Role</label>
+                              </div>
+                            </div>
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example8" name="address" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example8">Address</label>
+                          </div>
+          
+                          
+          
+                          <div class="row">
+                            <div class="col-md-12 mb-4">
+          
+                              <select class="form-control form-control-lg" data-mdb-select-init name="company">
+                                <option value="" disabled selected>Company Name</option>
+                                {% for c in company %}
+                                <option value="{{c.id}}">{{c.company_name}}</option> <!-- Correct field name -->
+                                {% endfor %}
+
+                                
+                              </select>
+                              <label class="form-label" for="form3Example8">Company Name</label>
+          
+                            </div>
+                           
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="date" id="form3Example9" name="join_date" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example9">Joining Date</label>
+                          </div>
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example90" name="salary" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example90">Salary</label>
+                          </div>
+          
+                        
+          
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="text" id="form3Example97" name="email" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example97">Email ID</label>
+                          </div>
+                          <div data-mdb-input-init class="form-outline mb-4">
+                            <input type="password" id="form3Example97" name="password" class="form-control form-control-lg" />
+                            <label class="form-label" for="form3Example97">Password</label>
+                          </div>
+          
+          
+                          <div class="d-flex justify-content-end pt-3">
+                            
+                            <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-warning btn-lg ms-2">Submit form</button>
+                          </div>
+                         </form>
+          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+    </body>
+</html>
+
+
+
+ 

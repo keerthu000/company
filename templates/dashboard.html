@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+          }
+          
+          .sidebar a {
+            padding: 15px 8px 15px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+          }
+          
+          .sidebar a:hover {
+            background-color: #575757;
+          }
+          
+          .content {
+            margin-left: 260px;
+            padding: 20px;
+          }
+          
+          .content h2 {
+            color: #333;
+          }
+    </style>
+
+</head>
+
+<body>
+    <div class="sidebar">
+        <h4 style="color: white; padding-left: 16px;padding-top:40px;"></h4>
+        
+        {% if user.is_admin %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'company_list' %}">Company List</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_hr_manager %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_manager %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_employee %}
+        <a href="">View Profile</a>
+        <a href="">Edit Profile</a>
+        <a href="">View Leave Status</a>
+        {% endif %}
+    </div>
+
+    <div class="container mt-5">
+        <h2 class="text-center">Dashboard</h2>
+
+        <!-- Key Metrics -->
+        <div class="row text-center mt-4">
+            <div class="col-md-4">
+                <div class="card bg-info text-white">
+                    <div class="card-body">
+                        <h5>Total Employees</h5>
+                        <h3>{{ total_employees }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-body">
+                        <h5>Total Leaves</h5>
+                        <h3>{{ total_leaves }}</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h5>Total Attendance Records</h5>
+                        <h3>{{ total_attendance }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Charts -->
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <h4>Attendance Status</h4>
+                <canvas id="attendanceChart"></canvas>
+            </div>
+            <div class="col-md-6">
+                <h4>Leave Status</h4>
+                <canvas id="leaveStatusChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Attendance Status Data (for Pie Chart)
+        var attendanceData = {
+            labels: ['Present', 'Absent'],
+            datasets: [{
+                data: [
+                    {% for att in attendance_data %}{{ att.total }}, {% endfor %}
+                ],
+                backgroundColor: ['#36A2EB', '#FF6384'],
+            }]
+        };
+
+        var attendanceConfig = {
+            type: 'pie',
+            data: attendanceData,
+        };
+
+        var attendanceChart = new Chart(
+            document.getElementById('attendanceChart'),
+            attendanceConfig
+        );
+
+        // Leave Status Data (for Doughnut Chart)
+        var leaveStatusData = {
+            labels: ['Pending', 'Approved', 'Rejected'],
+            datasets: [{
+                data: [
+                    {% for leave in leave_status_data %}{{ leave.total }}, {% endfor %}
+                ],
+                backgroundColor: ['#FFCE56', '#4BC0C0', '#FF6384'],
+            }]
+        };
+
+        var leaveStatusConfig = {
+            type: 'doughnut',
+            data: leaveStatusData,
+        };
+
+        var leaveStatusChart = new Chart(
+            document.getElementById('leaveStatusChart'),
+            leaveStatusConfig
+        );
+    </script>
+</body>
+
+</html>

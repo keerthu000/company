@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <style>
+        @media (min-width: 1025px) {
+            .h-custom {
+            height: 100vh !important;
+            }
+            }
+    </style>
+</head>
+
+<body>
+    <section class="h-100 h-custom" style="background-color: #8fc4b7;">
+        <div class="container py-5 h-100">
+          <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-8 col-xl-6">
+              <div class="card rounded-3">
+                <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+                  class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+                  alt="Sample photo">
+                <div class="card-body p-4 p-md-5">
+                  <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2">Attendance</h3>
+      
+                  <form class="px-md-2" action="{% url 'track_attendance' %}" method="POST">
+                    {% csrf_token %}
+      
+                    <div data-mdb-input-init class="form-outline mb-4">
+                        <select class="form-control form-control-lg" data-mdb-select-init name="emp_name">
+                            <option value="" disabled selected>Employee Name</option>
+                            {% for e in employee %}
+                            <option value="{{ e.id }}">{{ e.emp_name}}</option>
+                            {% endfor %}
+                        </select>
+                      <label class="form-label" for="form3Example1q">Employee Name</label>
+                    </div>
+      
+                    <div class="row">
+                      <div class="col-md-6 mb-4">
+      
+                        <div data-mdb-input-init class="form-outline datepicker">
+                          <input type="datetime-local" class="form-control" name="clock_in" id="exampleDatepicker1" />
+                          <label for="exampleDatepicker1" class="form-label">clock in</label>
+                        </div>
+      
+                      </div>
+                      <div class="col-md-6 mb-4">
+      
+                        <div data-mdb-input-init class="form-outline datepicker">
+                          <input type="datetime-local" class="form-control" name="clock_out" id="exampleDatepicker1" />
+                          <label for="exampleDatepicker1" class="form-label">clock out</label>
+                        </div>
+      
+                      </div>
+                      
+                    </div>
+      
+                   
+      
+                    <div class="row mb-4 pb-2 pb-md-0 mb-md-5">
+                      <div class="col-md-6">
+      
+                        <div data-mdb-input-init class="form-outline" style="width:400px;">
+                            <label for="date">Date</label>
+                            <input type="date" class="form-control" id="date" name="date" />
+                        </div>
+      
+                      </div>
+                    </div>
+      
+                    <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-success btn-lg mb-1">Submit</button>
+      
+                  </form>
+      
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+</body>
+
+</html>

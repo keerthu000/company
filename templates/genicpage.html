@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Role Cards</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .card-container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .card {
+            width: 18rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+        .card:hover {
+            transform: scale(1.05);
+        }
+        .card-header {
+            background-color: #343a40;
+            color: white;
+        }
+        .card-body {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h2 class="text-center">Role-Based Access Control</h2>
+    
+    <div class="card-container mt-4">
+        <!-- Admin Card -->
+        <div class="card">
+            <div class="card-header">
+                Admin
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Manage Company Data</h5>
+                <p class="card-text">Admins can manage all aspects of their company’s data, including employees, departments, roles, and permissions.</p>
+                <a href="{% url 'register_company' %}" class="btn btn-primary">Go to Admin Panel</a>
+            </div>
+        </div>
+
+        <!-- HR Manager Card -->
+        <div class="card">
+            <div class="card-header">
+                HR Manager
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Manage Employees</h5>
+                <p class="card-text">HR Managers can manage employee records, departments, and roles to ensure efficient HR operations.</p>
+                <a href="{% url 'createhrmanger' %}" class="btn btn-primary">Go to HR Panel</a>
+            </div>
+        </div>
+
+        <!-- Manager Card -->
+        <div class="card">
+            <div class="card-header">
+                Manager
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Manage Teams</h5>
+                <p class="card-text">Managers can view and manage employees within their department, including leave approvals and performance.</p>
+                <a href="{% url 'createmanager' %}" class="btn btn-primary">Go to Manager Panel</a>
+            </div>
+        </div>
+
+        <!-- Employee Card -->
+        <div class="card">
+            <div class="card-header">
+                Employee
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">View Profile</h5>
+                <p class="card-text">Employees can view and edit their profile information, manage their attendance, and check their leave status.</p>
+                <a href="{% url 'Employeecreate' %}" class="btn btn-primary">Go to Employee Panel</a>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                Login
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Login</h5>
+                {% comment %} <p class="card-text">Employees can view and edit their profile information, manage their attendance, and check their leave status.</p> {% endcomment %}
+                <a href="{% url 'login_view' %}" class="btn btn-primary">Login</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

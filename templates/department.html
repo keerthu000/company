@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+
+    <style>
+        html {
+            height: 100%;
+        }
+
+        .login-box {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            padding: 40px;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, .5);
+            box-sizing: border-box;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, .6);
+            border-radius: 10px;
+        }
+
+        .login-box h2 {
+            margin: 0 0 30px;
+            padding: 0;
+            color: #fff;
+            text-align: center;
+        }
+
+        .login-box .user-box {
+            position: relative;
+        }
+
+        .login-box .user-box input,
+        .login-box .user-box select {
+            width: 100%;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            margin-bottom: 30px;
+            border: none;
+            border-bottom: 1px solid #fff;
+            outline: none;
+            background: transparent;
+        }
+
+        .login-box .user-box label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 10px 0;
+            font-size: 16px;
+            color: #fff;
+            pointer-events: none;
+            transition: .5s;
+        }
+
+        .login-box .user-box input:focus ~ label,
+        .login-box .user-box input:valid ~ label,
+        .login-box .user-box select:focus ~ label,
+        .login-box .user-box select:valid ~ label {
+            top: -20px;
+            left: 0;
+            color: #03e9f4;
+            font-size: 12px;
+        }
+
+        /* Styling for dropdown */
+        #company-dropdown {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #fff;
+            color: #fff;
+            padding: 10px 0;
+            font-size: 16px;
+            outline: none;
+        }
+
+        #company-dropdown option {
+            background-color: #333;
+            color: #fff;
+        }
+
+        /* Add a custom arrow for the dropdown */
+        .login-box .user-box select {
+            background-image: linear-gradient(45deg, transparent 50%, #fff 50%), linear-gradient(135deg, #fff 50%, transparent 50%);
+            background-position: calc(100% - 20px) calc(1em + 5px), calc(100% - 15px) calc(1em + 5px);
+            background-size: 5px 5px, 5px 5px;
+            background-repeat: no-repeat;
+        }
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .content h2 {
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <h4 style="color: white; padding-left: 16px;padding-top:40px;"></h4>
+        
+        {% if user.is_admin %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'company_list' %}">Company List</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_hr_manager %}
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_manager %}
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_employee %}
+        <a href="">View Profile</a>
+        <a href="">Edit Profile</a>
+        <a href="">View Leave Status</a>
+        {% endif %}
+    </div>
+    <div class="login-box">
+        <h2>Add Department</h2>
+        <form action="{% url 'add_department' %}" method="POST">
+            {% csrf_token %}
+            <div class="user-box">
+                <select name="company" id="company-dropdown" required>
+                    <option value="" disabled selected>Company Name</option>
+                    <option value="{{ company.id }}">{{ company.company_name }}</option>
+                </select>
+                <label>Company Name</label>
+            </div>
+            <div class="user-box">
+                <input type="text" name="department" required="">
+                <label>Department</label>
+            </div>
+
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg">Submit</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

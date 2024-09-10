@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Profile</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .profile-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .profile-card img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 4px solid #007bff;
+        }
+
+        .profile-card-header {
+            background: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .profile-card-body {
+            padding: 20px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #0056b3;
+        }
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .sidebar {
+            height: 100%;
+            width: 250px;
+            position: fixed;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #333;
+            padding-top: 20px;
+        }
+
+        .sidebar a {
+            padding: 15px 8px 15px 16px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+        }
+
+        .content h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <h4 style="color: white; padding-left: 16px;padding-top:40px;"></h4>
+        
+        {% if user.is_admin %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'company_list' %}">Company List</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_hr_manager %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_manager %}
+        <a href="{% url 'dashboard_view' %}">Dashboard</a>
+        <a href="{% url 'roles' %}">Roles Management</a>
+        <a href="{% url 'department' %}">Department</a>
+        <a href="{% url 'employee_list' %}">Employees</a>
+        <a href="{% url 'attendance_list' %}">Attendance</a>
+        <a href="{% url 'leavelist_approval' %}">Leave Requests</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+        
+        {% if user.is_employee %}
+        <a href="{% url 'employee_profile' employee.id %}">View Profile</a>
+        <a href="{% url 'employee_edit' employee.id %}">Edit Profile</a>
+        {% comment %} <a href="{% url 'employee_leave_status' %}">View Leave Status</a> {% endcomment %}
+        <a href="{% url 'Leave' %}">Apply Leave</a>
+        <a href="{% url 'attendancepage' %}">Add Attendance</a>
+        <a href="{% url 'leavelist' %}">Leave Status</a>
+        <a href="{% url 'logout_view' %}">Log Out</a>
+        {% endif %}
+    </div>
+    
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="profile-card">
+                    <div class="profile-card-header">
+                        <h2>{{ employee.user.first_name }}</h2>
+                        <img src="{% static 'images/image.jpg' %}" alt="Profile Picture">
+                    </div>
+                    <div class="row no-gutters">
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                           
+                        </div>
+                        <div class="col-md-8 profile-card-body">
+                            <p><strong>Company:</strong> {{ employee.company.company_name }}</p>
+                            <p><strong>Department:</strong> {{ employee.department.name }}</p>
+                            <p><strong>Address:</strong> {{ employee.address }}</p>
+                            <p><strong>Email:</strong> {{ employee.email }}</p>
+                            <p><strong>Position:</strong> {{ employee.role.name }}</p>
+                            <p><strong>Date of Joining:</strong> {{ employee.joining_date }}</p>
+                            <a href="{% url 'employee_edit' employee.id %}" class="btn btn-primary">Edit Profile</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
